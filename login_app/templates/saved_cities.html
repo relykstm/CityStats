@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Your Saved Cities</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+            $(document).ready(function () {
+                function get_other_plot(url) {
+                  $(".here").html(`<div class ='namehere'></div>
+                  <table class="table">
+                        <thead>
+                            <th>City</th>
+                            <th>Temperature</th>
+                            <th>Air Pollution</th>
+                            <th>Impact</th>
+                            <th>Wind</th>
+                            <th>Carbon</th>
+                            <th>Pressure</th>
+                        </thead>
+                        <tbody class="addhere"></tbody>
+                    </table>`)                  
+                    $.get(url, function (data) {
+                        var plot_data = JSON.parse(data);
+                        var tableRow = '';
+                        var tableowner = `<h1>
+                                <span>Compare Cities:
+                                </span>
+                            </h1>`; 
+                    
+                        for (let each of plot_data) {
+                          tableRow += `<tr>
+                                <td>${each.fields.city_name}
+                                </td>
+                                <td>${each.fields.temp}
+                                </td>
+                                <td>${each.fields.aqi}
+                                </td>
+                                <td>${each.fields.impact}
+                                </td>
+                                <td>${each.fields.wind}
+                                </td>
+                                <td>${each.fields.co}
+                                </td>
+                                <td>${each.fields.pressure}
+                                </td>
+                            </tr>`;
+                        }
+                        $(".addhere").html(tableRow)
+                        $(".namehere").html(tableowner)
+                    })
+                }
+            
+            $(document).on('click', '.compare', function (e) {
+              e.preventDefault();
+              get_other_plot($(this).attr('href'));
+            })
+
+          })
+    </script>
+</head>
+<body>
+  <div class='container-fluid'>
+  <!----------------------------------------------------------------------------------------- This is the top nav bar -->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/homepage">Home</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/saved_cities">Save Cities <span class="sr-only">(current)</span></a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="/mycitiesplot">Plot My Cities</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log Out</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+      <table class="table table-striped">
+        <thead>
+          <tr>            
+            <th scope="col">City</th>
+            <th scope="col">Temperature</th>
+            <th scope="col">Air Pollution</th>            
+            <th scope="col">Impact</th>
+            <th scope="col">Wind</th>
+            <th scope="col">Carbon Monoxide</th>
+            <th scope="col">Pressure</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for each in cities %}
+          <tr>            
+            <td>{{each.city_name}}</td>
+            <td>{{each.temp}}</td>
+            <td>{{each.aqi}}</td>            
+            <td>{{each.impact}}</td>
+            <td>{{each.wind}}</td>
+            <td>{{each.co}}</td>
+            <td>{{each.pressure}}</td>
+            <td><a href="/destroy/{{each.id}}">Delete City</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <h3>Compare with another User:</h3>
+          {% for each in users %}
+          <ul>
+            <li><a class = "compare" href="/ajax/otheruserplot/{{each.id}}">{{each.first_name}} {{each.last_name}}'s Cities</a></li>
+          </ul>
+          {% endfor %}
+    <div class = "here"></div>
+</body>
+</html>

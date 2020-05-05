@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> 
+    <link rel="stylesheet"  href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Welcome!</title>
+</head>
+<body>
+  <div class="container-fluid">
+  <!-------------------------------------------------------------------------------------------------------- nav bar  -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/homepage">Welcome!</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/homepage">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/saved_cities">Save Cities</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="/mycitiesplot">Plot My Cities</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log Out</a>
+            </li>
+          </ul>
+        </div>
+    </nav>
+      <!------------------------------------------------------------------------------------------------ input for city -->
+
+      
+
+      <form action  = "/homepage" method="POST">
+        {% csrf_token %}
+        <div class='centerBar'>
+        <div class='searchBar'><p>Search a City:<input type="text" name='city'></p></div>
+        <button type="submit">Get City Stats</button>
+        </div>
+      </form>
+
+      {% if messages %}
+      <ul class="messages">    
+          {% for message in messages %}    
+          <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>  
+          {% endfor %}
+      </ul>
+      {% endif %}
+
+      <form action="/save" method ="POST">
+        {% csrf_token %}
+        <!---------------------------------------------------------------------------------------------------- weather output box -->
+        <div class='infoDisplayed'>
+          <div class='temp'>
+            
+            <input type="hidden" name='savecity' value ="{{city_weather.city}}">
+            <p>Current Weather in {{city_weather.city}}:</p>
+            <input type="hidden" name='temp' value ="{{city_weather.temperature}}">
+            <p>Temperature = {{city_weather.temperature}}°Fahrenheit</p>
+            <p><img src = 'http://openweathermap.org/img/wn/{{city_weather.icon}}@2x.png'></p>
+            
+          </div>
+          <!---------------------------------------------------------------------------------------------------- AQI output box -->
+          <div class="AQIbox" style='background-color:{{city_AQI.color}};'>
+            
+            <div>{{city_AQI.city}} Air Quality Index:</div> 
+            <input type="hidden" name='aqi' value ="{{city_AQI.aqi}}">
+            <div  class='AQI'>{{city_AQI.aqi}}</div>
+            <input type="hidden" name='impact' value ="{{city_AQI.impact}}">
+            <div  class="impact">{{city_AQI.impact}}</div>
+            <input type="hidden" name='wind' value ="{{city_AQI.wind}}">
+            <div  class="impact">Wind: {{city_AQI.wind}}</div>
+            <input type="hidden" name='pressure' value ="{{city_AQI.pressure}}">
+            <div  class="impact">Pressure: {{city_AQI.pressure}}</div>
+            <input type="hidden" name='co' value ="{{city_AQI.co}}">
+            <div  class="impact">CO: {{city_AQI.co}}</div>
+          </div>
+        <!------------------------------------------------------------------------------------ this is the tester for the widget -->
+      </div>
+       
+        <div class="button"><button type="submit">Save City Data!</button></div>
+    </form>
+    
+  </div>
+</body>
+</html>

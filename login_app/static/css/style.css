@@ -1,0 +1,64 @@
+.registration {
+    border: 3px solid black;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 5px;
+    vertical-align: top;
+    text-align: center;
+
+}
+
+.temp {
+    border: 3px solid black;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 5px;
+    vertical-align: top;
+    text-align: center;
+
+}
+.AQIbox{
+    border: 3px solid black;
+    display: inline-block;
+    border-radius: 10px;
+    padding: 5px;
+    vertical-align: top;
+    text-align: center;
+
+}
+.AQI {
+    font-size: 90px;
+    text-align: center;
+}
+
+.searchBar {
+    display: inline-block;
+}
+
+.impact {
+    font-size: 20px;
+    text-align: center;
+}
+
+.centerBar{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+.infoDisplayed{
+    text-align: center;
+}
+
+.button{
+    text-align: center;
+    margin-top: 100px;
+}
+
+.graph {
+    width: 700px;
+    height: 1000px;
+}
+
+.svg-container{
+    display: inline-block;
+}

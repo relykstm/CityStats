@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather Home</title>
+</head>
+<body>
+    <h1>Hello!</h1>
+    <form action  = "/weather" method="POST">
+        {% csrf_token %}
+        <p>City:<input type="text" name='city'></p>
+        <button type="submit">Get City Stats</button>
+    </form>
+    {% if messages %}
+    <ul class="messages">    
+        {% for message in messages %}    
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>  
+        {% endfor %}
+    {% endif %}
+
+    <form action="/save" method ="POST">
+        <input type="hidden" name='savecity' value ="{{city_weather.city}}">
+        <p>City = {{city_weather.city}}</p>
+        <input type="hidden" name='savecity' value ="{{city_weather.temperature}}">
+        <p>Temperature = {{city_weather.temperature}}°Fahrenheit</p>
+        <p><img src = 'http://openweathermap.org/img/wn/{{city_weather.icon}}@2x.png'></p>
+        <button type="submit">Save City Data!</button>
+    </form>
+</body>
+</html>
